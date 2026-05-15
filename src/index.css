@@ -17,10 +17,7 @@ body,
 }
 
 body {
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
+    font-family: "SUIT", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -28,4 +25,56 @@ body {
 code {
     font-family:
         source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* ::-webkit-scrollbar-track {
+    background: #23272c;
+} */
+
+::-webkit-scrollbar-thumb {
+    background: #454c56;
+    border-radius: 999px;
+    border: 3px solid transparent;
+    border-left: 6px solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+    background-clip: padding-box;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("./assets/fonts/SUIT-Regular.otf") format("opentype");
+    font-weight: 400;
+}
+@font-face {
+    font-family: "SUIT";
+    src: url("./assets/fonts/SUIT-Medium.otf") format("opentype");
+    font-weight: 500;
+}
+@font-face {
+    font-family: "SUIT";
+    src: url("./assets/fonts/SUIT-SemiBold.otf") format("opentype");
+    font-weight: 600;
+}
+@font-face {
+    font-family: "SUIT";
+    src: url("./assets/fonts/SUIT-Bold.otf") format("opentype");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "SUIT";
+    src: url("./assets/fonts/SUIT-ExtraBold.otf") format("opentype");
+    font-weight: 800;
 }

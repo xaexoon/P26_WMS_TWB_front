@@ -1,117 +1,116 @@
 import { useState } from "react";
 
+const CustomCheckbox = ({ checked, onChange, label, disabled }) => (
+    <div
+        className={`flex items-center justify-start gap-4 whitespace-nowrap ${disabled ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
+        onClick={disabled ? undefined : onChange}
+    >
+        <div className="w-[30px] h-[30px] rounded-[4px] border-2 border-[#67A0F0] bg-[#23272C] flex items-center justify-center shrink-0">
+            {checked && (
+                <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                    <path
+                        d="M1 5L5 9L13 1"
+                        stroke="#67A0F0"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                    />
+                </svg>
+            )}
+        </div>
+        <span className="text-[28px]">{label}</span>
+    </div>
+);
+
 export default function SearchFilterModal({ onClose, onApply }) {
-    const [startDate, setStartDate] = useState("2026-03-03");
-    const [endDate, setEndDate] = useState("2026-03-03");
     const [filters, setFilters] = useState({
-        고유번호: false,
-        검사횟수: false,
-        이름: false,
-        재료: false,
-        완료여부: true,
-        입고일자: false,
-        출고일자: false,
+        "LOT 번호": false,
+        "코일 번호": false,
+        품번: false,
+        작업자: false,
+        고객사: false,
     });
 
     const toggleFilter = (key) => {
-        setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+        setFilters((prev) => {
+            const next = { ...prev, [key]: !prev[key] };
+
+            if (key === "LOT 번호" && next["LOT 번호"]) {
+                return {
+                    "LOT 번호": true,
+                    "코일 번호": false,
+                    품번: false,
+                    작업자: false,
+                    고객사: false,
+                };
+            }
+
+            if (key !== "LOT 번호") {
+                next["LOT 번호"] = false;
+            }
+
+            return next;
+        });
     };
 
+    const isLotOnly = filters["LOT 번호"];
+
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="flex flex-col items-center justify-center bg-white rounded-xl p-8 w-[800px] h-[583px] relative">
-                {/* 닫기 버튼 */}
+        <div className="fixed inset-0 bg-white/10 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center bg-[#23272C] rounded-xl p-8 w-[800px] h-[420px] relative gap-9">
                 <button
-                    className="absolute top-4 right-4 text-[42px] text-gray-500 pr-3"
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white text-[32px] pr-3"
                     onClick={onClose}
+                    style={{ border: "none", background: "none" }}
                 >
                     ✕
                 </button>
 
-                {/* 제목 */}
                 <div className="flex flex-col items-center justify-center">
-                    <h2 className="text-[45px] text-center mb-1">
+                    <h2 className="text-[45px] text-center mb-1 text-white">
                         검색 필터 설정
                     </h2>
-                    <p className="text-[24px] text-center text-red-400 mb-2">
+                    <p className="text-[24px] text-center text-[#585C63]">
                         * 검색 범위는 한 개 이상의 값이 입력되어야 합니다.
                     </p>
                 </div>
 
-                <div className="w-[720px] h-[277px] flex flex-col items-center justify-center">
-                    {/* 검색 범위 */}
-                    <div className="flex items-center justify-center w-[680px] h-[57px] gap-3 mb-6">
-                        <div className="flex items-center w-[210px] h-[40px]">
-                            <span className="text-[32px] font-semibold">
-                                검색 범위
-                            </span>
-                        </div>
-                        <div className="flex-1"></div>
-                        <div className="flex items-center justify-center w-[440px] h-[57px] gap-3">
-                            <input
-                                type="date"
-                                className="border border-gray-300 rounded px-2 py-1 text-[24px]"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
+                <div className="flex flex-col gap-y-4 items-center w-[680px] text-white">
+                    {/* 1줄: LOT 번호, 코일 번호, 품번 */}
+                    <div className="flex justify-center gap-x-8">
+                        {["LOT 번호", "코일 번호", "품번"].map((key) => (
+                            <CustomCheckbox
+                                key={key}
+                                label={key}
+                                checked={filters[key]}
+                                onChange={() => toggleFilter(key)}
+                                disabled={isLotOnly && key !== "LOT 번호"}
                             />
-                            <span className="text-[24px]">~</span>
-                            <input
-                                type="date"
-                                className="border border-gray-300 rounded px-2 py-1 text-[24px]"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                            />
-                        </div>
+                        ))}
                     </div>
 
-                    {/* 구분선 */}
-                    <div className="w-[680px] h-[1px] bg-black"></div>
-
-                    {/* 체크박스 */}
-                    <div className="flex flex-col items-center w-[680px] mt-6 gap-y-4">
-                        {/* 첫번째 줄: 4개 */}
-                        <div className="grid grid-cols-4 w-full gap-x-16">
-                            {["고유번호", "검사횟수", "이름", "재료"].map(
-                                (key) => (
-                                    <label
-                                        key={key}
-                                        className="flex items-center justify-start gap-2 cursor-pointer text-[24px]"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            className="w-[20px] h-[20px]"
-                                            checked={filters[key]}
-                                            onChange={() => toggleFilter(key)}
-                                        />
-                                        {key}
-                                    </label>
-                                ),
-                            )}
-                        </div>
-                        {/* 두번째 줄: 3개 */}
-                        <div className="grid grid-cols-4 w-full gap-x-16">
-                            {["완료여부", "입고일자", "출고일자"].map((key) => (
-                                <label
-                                    key={key}
-                                    className="flex items-center justify-start gap-2 cursor-pointer text-[24px]"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        className="w-[20px] h-[20px]"
-                                        checked={filters[key]}
-                                        onChange={() => toggleFilter(key)}
-                                    />
-                                    {key}
-                                </label>
-                            ))}
-                        </div>
+                    {/* 2줄: 작업자, 고객사 */}
+                    <div className="flex justify-center gap-x-8">
+                        {["작업자", "고객사"].map((key) => (
+                            <CustomCheckbox
+                                key={key}
+                                label={key}
+                                checked={filters[key]}
+                                onChange={() => toggleFilter(key)}
+                                disabled={isLotOnly && key !== "LOT 번호"}
+                            />
+                        ))}
                     </div>
                 </div>
 
-                {/* 적용 버튼 */}
                 <button
-                    className="w-[720px] h-[80px] bg-[#70C180] text-white text-[36px] rounded-xl"
-                    onClick={() => onApply({ startDate, endDate, filters })}
+                    className="w-[720px] h-[64px] bg-[#67A0F0] text-white text-[32px] rounded-xl font-semibold flex-shrink-0"
+                    onClick={() =>
+                        onApply({
+                            startDate: null,
+                            endDate: null,
+                            filters,
+                        })
+                    }
                 >
                     검색 필터 적용
                 </button>

@@ -6,9 +6,7 @@ import Main from "./pages/Main";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Main />
-        </BrowserRouter>
-    </React.StrictMode>,
+    <BrowserRouter>
+        <Main />
+    </BrowserRouter>,
 );

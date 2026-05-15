@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": false,
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    },
+    "include": ["src"]
+}
