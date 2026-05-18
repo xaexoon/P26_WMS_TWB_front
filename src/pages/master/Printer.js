@@ -19,9 +19,9 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
-    { key: "printer_name", label: "프린터 이름", type: "text" },
-    { key: "printer_code", label: "프린터 코드", type: "text" },
-    { key: "address", label: "주소", type: "text" },
+    { key: "printer_name", label: "프린터 이름", type: "text", required: true },
+    { key: "printer_code", label: "프린터 코드", type: "text", required: true },
+    { key: "address", label: "주소", type: "text", required: true},
     {
         key: "using_yn",
         label: "사용여부",
@@ -31,6 +31,7 @@ const FORM_FIELDS = [
             { value: 1, label: "사용" },
             { value: 0, label: "미사용" },
         ],
+        required: true
     },
 ];
 

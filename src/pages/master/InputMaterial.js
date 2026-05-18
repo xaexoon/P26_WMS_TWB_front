@@ -19,22 +19,24 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
-    { key: "material_name", label: "자재명", type: "text" },
-    { key: "material_code", label: "자재 코드", type: "text" },
+    { key: "material_name", label: "자재명", type: "text", required: true },
+    { key: "material_code", label: "자재 코드", type: "text", required: true },
     {
         key: "material_type",
         label: "구분",
         type: "select",
         defaultValue: "A",
+        required: true,
         options: [
             { value: "A", label: "A" },
             { value: "B", label: "B" },
         ],
+        required: true
     },
-    { key: "width", label: "가로(mm)", type: "number" },
-    { key: "height", label: "세로(mm)", type: "number" },
-    { key: "thick", label: "두께(mm)", type: "number" },
-    { key: "quantity", label: "수량", type: "number" },
+    { key: "width", label: "가로(mm)", type: "number", required: true },
+    { key: "height", label: "세로(mm)", type: "number", required: true },
+    { key: "thick", label: "두께(mm)", type: "number", required: true },
+    { key: "quantity", label: "수량", type: "number", required: true },
 ];
 
 export default function InputMaterial() {

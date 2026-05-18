@@ -134,8 +134,8 @@ export default function Worker() {
     ];
 
     const FORM_FIELDS = [
-        { key: "worker_name", label: "작업자명", type: "text" },
-        { key: "worker_code", label: "작업자 코드", type: "text" },
+        { key: "worker_name", label: "작업자명", type: "text", required: true },
+        { key: "worker_code", label: "작업자 코드", type: "text", required: true },
         {
             key: "role",
             label: "역할",
@@ -146,6 +146,7 @@ export default function Worker() {
                 { value: "검사자", label: "검사자" },
                 { value: "관리자", label: "관리자" },
             ],
+            required: true
         },
         { key: "department", label: "부서", type: "text" },
         {

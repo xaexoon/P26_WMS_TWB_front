@@ -97,8 +97,8 @@ function QRModal({ url, name, onClose }) {
 }
 
 const FORM_FIELDS = [
-    { key: "equipment_name", label: "장비명", type: "text" },
-    { key: "equipment_code", label: "장비 코드", type: "text" },
+    { key: "equipment_name", label: "장비명", type: "text", required: true },
+    { key: "equipment_code", label: "장비 코드", type: "text", required: true },
     { key: "description", label: "비고", type: "text" },
     {
         key: "using_yn",

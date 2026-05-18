@@ -19,8 +19,8 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
-    { key: "destination_name", label: "목적지명", type: "text" },
-    { key: "destination_code", label: "목적지 코드", type: "text" },
+    { key: "destination_name", label: "목적지명", type: "text", required: true },
+    { key: "destination_code", label: "목적지 코드", type: "text", required: true },
     { key: "description", label: "비고", type: "text" },
     {
         key: "using_yn",
@@ -31,6 +31,7 @@ const FORM_FIELDS = [
             { value: 1, label: "사용" },
             { value: 0, label: "미사용" },
         ],
+        required: true
     },
 ];
 
@@ -47,6 +48,7 @@ export default function Destination() {
             onInsert={insertDestination}
             onUpdate={updateDestination}
             onDelete={deleteDestination}
+            protectedIds={[1, 2]}
         />
     );
 }

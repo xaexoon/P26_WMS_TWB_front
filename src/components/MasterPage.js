@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ConfirmModal from "./ConfirmModal";
+import AlarmModal from "./AlarmModal";
 
 function CustomSelect({ value, onChange, options = [] }) {
     const [open, setOpen] = useState(false);
@@ -111,7 +112,15 @@ function CustomSelect({ value, onChange, options = [] }) {
     );
 }
 
-function MasterModal({ mode, data, formFields, onClose, onSave, onDelete }) {
+function MasterModal({
+    mode,
+    data,
+    formFields,
+    onClose,
+    onSave,
+    onDelete,
+    canDelete = true,
+}) {
     const [form, setForm] = useState(
         data ||
             formFields.reduce(
@@ -119,9 +128,25 @@ function MasterModal({ mode, data, formFields, onClose, onSave, onDelete }) {
                 {},
             ),
     );
+    const [alarm, setAlarm] = useState(null);
     const mouseDownTarget = useRef(null);
 
     const handleChange = (k, v) => setForm((prev) => ({ ...prev, [k]: v }));
+
+    const handleSaveClick = () => {
+        const hasMissing = formFields.some((f) => {
+            if (!f.required) return false;
+            const v = form[f.key];
+            if (v === null || v === undefined) return true;
+            if (typeof v === "string" && v.trim() === "") return true;
+            return false;
+        });
+        if (hasMissing) {
+            setAlarm("필수 항목을 입력해 주세요");
+            return;
+        }
+        onSave(form);
+    };
 
     return (
         <div
@@ -160,6 +185,9 @@ function MasterModal({ mode, data, formFields, onClose, onSave, onDelete }) {
                         <div key={field.key} className="flex flex-col gap-1">
                             <label className="text-gray-400 text-[18px]">
                                 {field.label}
+                                {field.required && (
+                                    <span className="text-red-500 ml-1">*</span>
+                                )}
                             </label>
                             {field.type === "select" ? (
                                 <CustomSelect
@@ -186,7 +214,7 @@ function MasterModal({ mode, data, formFields, onClose, onSave, onDelete }) {
                 </div>
 
                 <div className="flex gap-3 mt-2">
-                    {mode === "edit" && (
+                    {mode === "edit" && canDelete && (
                         <button
                             className="flex-1 py-4 rounded-xl text-[28px] font-semibold"
                             style={{
@@ -202,12 +230,19 @@ function MasterModal({ mode, data, formFields, onClose, onSave, onDelete }) {
                     <button
                         className="flex-1 py-4 rounded-xl text-[28px] font-semibold bg-[#67A0F0] text-white"
                         style={{ border: "none" }}
-                        onClick={() => onSave(form)}
+                        onClick={handleSaveClick}
                     >
                         {mode === "add" ? "추가" : "저장"}
                     </button>
                 </div>
             </div>
+
+            {alarm && (
+                <AlarmModal
+                    message={alarm}
+                    onClose={() => setAlarm(null)}
+                />
+            )}
         </div>
     );
 }
@@ -223,11 +258,13 @@ export default function MasterPage({
     onInsert,
     onUpdate,
     onDelete,
+    protectedIds = [],
 }) {
     const [list, setList] = useState([]);
     const [modal, setModal] = useState(null);
     const [searchValue, setSearchValue] = useState("");
     const [confirm, setConfirm] = useState(null);
+    const [alarm, setAlarm] = useState(null);
 
     useEffect(() => {
         loadList();
@@ -254,12 +291,15 @@ export default function MasterPage({
                     ? "추가하시겠습니까?"
                     : "수정하시겠습니까?",
             onConfirm: async () => {
-                if (modal.mode === "add") {
-                    await onInsert(form);
-                } else {
-                    await onUpdate(form);
-                }
+                const res =
+                    modal.mode === "add"
+                        ? await onInsert(form)
+                        : await onUpdate(form);
                 setConfirm(null);
+                if (res?.success === false) {
+                    setAlarm(res.message || "처리에 실패했습니다");
+                    return;
+                }
                 setModal(null);
                 loadList();
             },
@@ -387,6 +427,10 @@ export default function MasterPage({
                     onClose={() => setModal(null)}
                     onSave={handleSave}
                     onDelete={handleDelete}
+                    canDelete={
+                        !modal.data ||
+                        !protectedIds.includes(modal.data[pkKey])
+                    }
                 />
             )}
 
@@ -396,6 +440,10 @@ export default function MasterPage({
                     onConfirm={confirm.onConfirm}
                     onCancel={() => setConfirm(null)}
                 />
+            )}
+
+            {alarm && (
+                <AlarmModal message={alarm} onClose={() => setAlarm(null)} />
             )}
         </div>
     );

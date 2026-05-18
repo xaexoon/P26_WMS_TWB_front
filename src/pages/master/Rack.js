@@ -6,9 +6,15 @@ import {
     updateRack,
     deleteRack,
 } from "../../api/masterApi";
+const DESTINATION_LABELS = { 1: "입고랙", 2: "출고랙" };
+
 const COLUMNS = [
     { key: "rack_name", label: "랙 이름" },
-    { key: "destination_name", label: "구분" },
+    {
+        key: "destination_id",
+        label: "구분",
+        render: (v) => DESTINATION_LABELS[v] ?? "-",
+    },
     { key: "rows", label: "행 (가로)" },
     { key: "cols", label: "열 (세로)" },
     {
@@ -19,19 +25,20 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
-    { key: "rack_name", label: "랙 이름", type: "text" },
+    { key: "rack_name", label: "랙 이름", type: "text", required: true },
     {
         key: "destination_id",
         label: "구분",
         type: "select",
         defaultValue: 1,
+        required: true,
         options: [
             { value: 1, label: "입고랙" },
-            { value: 4, label: "출고랙" },
+            { value: 2, label: "출고랙" },
         ],
     },
-    { key: "rows", label: "행 (가로)", type: "number" },
-    { key: "cols", label: "열 (세로)", type: "number" },
+    { key: "rows", label: "행 (가로)", type: "number", required: true },
+    { key: "cols", label: "열 (세로)", type: "number", required: true },
     {
         key: "using_yn",
         label: "상태",
@@ -41,6 +48,7 @@ const FORM_FIELDS = [
             { value: 1, label: "사용" },
             { value: 0, label: "미사용" },
         ],
+        required: true
     },
 ];
 

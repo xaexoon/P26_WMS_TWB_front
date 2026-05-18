@@ -21,8 +21,8 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
-    { key: "company_name", label: "고객사명", type: "text" },
-    { key: "company_code", label: "고객사 코드", type: "text" },
+    { key: "company_name", label: "고객사명", type: "text", required: true },
+    { key: "company_code", label: "고객사 코드", type: "text", required: true },
     { key: "address", label: "주소", type: "text" },
     { key: "contact_person", label: "담당자", type: "text" },
     { key: "contact", label: "연락처", type: "text" },
@@ -35,6 +35,7 @@ const FORM_FIELDS = [
             { value: 1, label: "사용" },
             { value: 0, label: "미사용" },
         ],
+        required: true
     },
 ];
 

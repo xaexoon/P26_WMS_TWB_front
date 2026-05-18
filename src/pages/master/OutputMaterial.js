@@ -53,24 +53,26 @@ export default function OutputMaterial() {
     );
 
     const FORM_FIELDS = [
-        { key: "product_name", label: "제품명", type: "text" },
-        { key: "product_code", label: "제품 코드", type: "text" },
+        { key: "product_name", label: "제품명", type: "text", required: true },
+        { key: "product_code", label: "제품 코드", type: "text", required: true },
         {
             key: "material_a_id",
             label: "A자재",
             type: "select",
             options: aOptions,
+            required: true,
         },
         {
             key: "material_b_id",
             label: "B자재",
             type: "select",
             options: bOptions,
+            required: true,
         },
-        { key: "width", label: "가로(mm)", type: "number" },
-        { key: "height", label: "세로(mm)", type: "number" },
-        { key: "thick", label: "두께(mm)", type: "number" },
-        { key: "quantity", label: "수량", type: "number" },
+        { key: "width", label: "가로(mm)", type: "number", required: true },
+        { key: "height", label: "세로(mm)", type: "number", required: true },
+        { key: "thick", label: "두께(mm)", type: "number", required: true },
+        { key: "quantity", label: "수량", type: "number", required: true },
     ];
 
     return (
