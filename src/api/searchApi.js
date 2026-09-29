@@ -5,7 +5,7 @@ const BASE_URL = `${API_BASE}/api/search`;
 export const searchInput = async (start, end, filters, keyword) => {
     const params = new URLSearchParams({ start, end });
     if (filters["품번"] && keyword) params.append("material_code", keyword);
-    if (filters["코일 번호"] && keyword) params.append("coil_num", keyword); // 👈 추가
+    if (filters["코일 번호"] && keyword) params.append("coil_num", keyword);
     if (filters["작업자"] && keyword) params.append("worker_name", keyword);
     const res = await fetch(`${BASE_URL}/input?${params}`);
     return await res.json();
