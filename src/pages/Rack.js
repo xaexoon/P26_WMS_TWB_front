@@ -132,7 +132,8 @@ const RackPanel = ({ racks = [], label }) => {
             {/* 타이틀 */}
             <div className="flex items-center justify-start w-[810px] h-[60px]">
                 <span className="text-[48px] text-white font-bold">
-                    {label} 적치대 {currentRack ? `#${index + 1}` : ""}
+                    {`${currentRack?.rack_name} ` ||
+                        `${label} 랙 ${currentRack ? `#${index + 1}` : ""}`}
                 </span>
             </div>
 
@@ -214,14 +215,11 @@ export default function RackInfo() {
 
     const fetchRacks = () => {
         getRackList().then((res) => {
+            console.log(res);
             if (!res?.data) return;
             const active = res.data.filter((r) => r.using_yn === 1);
-            setInputRacks(
-                active.filter((r) => r.destination_name === "입고존"),
-            );
-            setOutputRacks(
-                active.filter((r) => r.destination_name === "출고존"),
-            );
+            setInputRacks(active.filter((r) => r.destination_id === 1));
+            setOutputRacks(active.filter((r) => r.destination_id === 2));
         });
     };
 

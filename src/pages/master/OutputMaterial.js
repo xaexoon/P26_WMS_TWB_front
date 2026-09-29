@@ -10,6 +10,7 @@ import {
 } from "../../api/masterApi";
 
 const COLUMNS = [
+    { key: "car_type", label: "차종" },
     { key: "product_name", label: "제품명" },
     { key: "product_code", label: "제품 코드" },
     { key: "material_a_code", label: "A자재" },
@@ -53,8 +54,14 @@ export default function OutputMaterial() {
     );
 
     const FORM_FIELDS = [
+        { key: "car_type", label: "차종", type: "text", required: true },
         { key: "product_name", label: "제품명", type: "text", required: true },
-        { key: "product_code", label: "제품 코드", type: "text", required: true },
+        {
+            key: "product_code",
+            label: "제품 코드",
+            type: "text",
+            required: true,
+        },
         {
             key: "material_a_id",
             label: "A자재",
@@ -71,7 +78,7 @@ export default function OutputMaterial() {
         },
         { key: "width", label: "가로(mm)", type: "number", required: true },
         { key: "height", label: "세로(mm)", type: "number", required: true },
-        { key: "thick", label: "두께(mm)", type: "number", required: true },
+        { key: "thick", label: "두께(mm)", type: "text", required: true },
         { key: "quantity", label: "수량", type: "number", required: true },
     ];
 

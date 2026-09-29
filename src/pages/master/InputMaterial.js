@@ -9,6 +9,7 @@ import {
 } from "../../api/masterApi";
 
 const COLUMNS = [
+    { key: "car_type", label: "차종" },
     { key: "material_name", label: "자재명" },
     { key: "material_code", label: "자재 코드" },
     { key: "material_type", label: "구분" },
@@ -19,6 +20,7 @@ const COLUMNS = [
 ];
 
 const FORM_FIELDS = [
+    { key: "car_type", label: "차종", type: "text", required: true },
     { key: "material_name", label: "자재명", type: "text", required: true },
     { key: "material_code", label: "자재 코드", type: "text", required: true },
     {
@@ -30,8 +32,9 @@ const FORM_FIELDS = [
         options: [
             { value: "A", label: "A" },
             { value: "B", label: "B" },
+            { value: "C", label: "C" },
         ],
-        required: true
+        required: true,
     },
     { key: "width", label: "가로(mm)", type: "number", required: true },
     { key: "height", label: "세로(mm)", type: "number", required: true },

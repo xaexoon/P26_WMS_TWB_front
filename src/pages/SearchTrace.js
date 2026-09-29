@@ -28,6 +28,14 @@ const ROW_LABELS = [
 
 const DOT_SIZE = 60;
 
+const formatDateTime = (value) => {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return value;
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
+
 export default function SearchTrace() {
     const { lotNum } = useParams();
     const navigate = useNavigate();
@@ -191,9 +199,15 @@ export default function SearchTrace() {
                                                           ] ?? "-")
                                                         : `${stageData[stage.key]["rack_name"] ?? "-"} / ${stageData[stage.key]["location"] ?? "-"}`
                                                     : "-"
-                                                : (stageData[stage.key]?.[
-                                                      r.key
-                                                  ] ?? "-")}
+                                                : r.key === "date"
+                                                  ? formatDateTime(
+                                                        stageData[stage.key]?.[
+                                                            r.key
+                                                        ],
+                                                    )
+                                                  : (stageData[stage.key]?.[
+                                                        r.key
+                                                    ] ?? "-")}
                                         </td>
                                     ))}
                                 </tr>

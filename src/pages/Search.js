@@ -28,6 +28,14 @@ const PROCESS_LABEL = {
     output: "출고",
 };
 
+const formatDateTime = (value) => {
+    if (!value) return "-";
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return value;
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
+
 export default function Search() {
     const navigate = useNavigate();
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -344,7 +352,11 @@ export default function Search() {
                                                     ? (PROCESS_LABEL[
                                                           row[h.key]
                                                       ] ?? row[h.key])
-                                                    : (row[h.key] ?? "-")}
+                                                    : h.key === "process_date"
+                                                      ? formatDateTime(
+                                                            row[h.key],
+                                                        )
+                                                      : (row[h.key] ?? "-")}
                                             </th>
                                         ))}
                                     </tr>

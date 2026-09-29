@@ -237,6 +237,7 @@ export const insertOutputMaterial = async (body) => {
 };
 
 export const updateOutputMaterial = async (body) => {
+    console.log(body);
     const res = await fetch(`${BASE_URL}/output_material/update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

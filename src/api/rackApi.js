@@ -7,6 +7,7 @@ export const getRackList = async (keyword = null) => {
         ? `${RACK_URL}/list?keyword=${keyword}`
         : `${RACK_URL}/list`;
     const res = await fetch(url);
+    console.log("DATA : ", res.json);
     return await res.json();
 };
 
